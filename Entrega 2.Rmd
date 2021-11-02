@@ -1,0 +1,353 @@
+---
+title: "Entrega 2"
+author: "Alessandra Guevara"
+date: "1/11/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+
+## FACULTAD DE CIENCIAS SOCIALES - PUCP
+
+### Curso: POL 304 - Estadística para el análisis político 2 | Semestre 2021 - 2
+
+### Jefes de Práctica: Abigail Otero y Oscar Vega Baella
+
+Entrega 2 Trabajo grupal - Alessandra Guevara (20190352) y Jean Carlo Lino (20150691)
+=============================================================================
+
+
+
+La pobreza en el Perú es un mal endémico que se intenta combatir desde distintos frentes. A lo largo de los años, se han adoptado diferentes estrategias desde el Estado para intentar reducirla. La mayoría de políticas públicas formuladas por los gobiernos han tratado esta problemática socioeconómica con un lente únicamente monetario, siendo “una de las maneras más frecuentes de medir la pobreza (...) a través de la falta de ingresos necesarios para adquirir la canasta básica de alimentos” (BID 2020). Así, se calcula una línea de pobreza en base al precio de la canasta básica familiar de alimentos, con la cual se determina si una familia está en condición de pobreza: de acuerdo al gasto en el que la familia incurra, se clasificará como “pobre” si este monto está por debajo del precio de una canasta básica (línea de pobreza).  Si bien, previo a la pandemia mundial, la pobreza monetaria había disminuído 0.7 puntos porcentuales en la última década, según el INEI (2020), “en el año 2020, la pobreza monetaria afectó al 30,1% de la población del país, incrementándose en 9,9 puntos porcentuales en comparación con el año 2019.”
+
+Aunque la medición monetaria ha servido para tener cierto parámetro de las personas en condición de pobreza en el país, lo cierto es que esta medición no es precisa para determinar la calidad de vida de una persona. Amartya Sen diferenciaba el concepto de capacidad humana del capital humano, ya que este último se centraba en el rol del ser humano como productor de bienes y servicios, mientras que la capacidad humana hace referencia a la capacidad de los individuos para autodeterminarse (Sen en Urzúa y Caqueo-Urízar, 2012). Así, si únicamente se considera la capacidad de gasto de las familias para determinar si son pobres o no, se estarían excluyendo otros indicadores importantes como la salud, educación, empleo, entre otros que mejoran la calidad de vida de las personas al permitirles acceder a mayores recursos y, por ende, a tener un mayor desarrollo humano. Sobre lo mencionado, Carlos Parodi, en un artículo publicado, afirma que “una familia puede tener el ingreso para comprar la canasta que lo clasifica como no pobre, pero vive en condiciones de hacinamiento, sin agua ni desagüe, sin energía eléctrica y en una vivienda precaria (...) [eso] también sería pobre, a pesar que con el método descrito aparecería como no pobre”. Esto revela una carencia en la forma de medir la pobreza que ha imperado en el país durante décadas y que moldea la forma en la que el Estado responde a este problema. 
+
+La Encuesta Nacional de Hogares (ENAHO) es una encuesta realizada por el Instituto Nacional de Estadística (INEI) desde el año 1995, para “efectuar el seguimiento de los indicadores sobre las condiciones de vida” de los diferentes hogares del país. En ella se mide distintos aspectos de las características de un hogar y sus miembros como la salud, educación, empleo, transportes, entre otros. Además, en esta encuesta se utiliza un método monetario para poder determinar si un hogar está en condición de pobreza. Si bien también existe una medición de pobreza que contempla las necesidades básicas insatisfechas, esta sigue sin considerar variables importantes como el grado de instrucción de todos los miembros del hogar, la precariedad del empleo, si los miembros sufren malestares crónicos (salud), entre otras variables que podrían influir en que una persona sea considerada pobre al margen del nivel de gasto. 
+
+En ese sentido, el presente trabajo intenta demostrar que otras variables, además de las consideradas por el INEI para medir la pobreza, pueden “predecir” si una persona está considerada como pobre o no de acuerdo a la medición monetaria. Esto con el fin de contribuir a la academia a evidenciar que un enfoque monetario es insuficiente para poder determinar la calidad de vida de una persona, y demostrar que otras variables pueden condicionar a una persona a la pobreza además del nivel de gasto. Se propone que variables relacionadas al sexo, educación, salud, empleo y conectividad pueden explicar que una persona sea considerada como pobre según el INEI. Para ello se utilizará la información recopilada en la ENAHO del año 2019 y su medición de pobreza. 
+
+En primer lugar, se empleará la variable sexo para demostrar que las mujeres poseen una inclinación o vulnerabilidad a ser consideras como pobres en mayor medida que los hombres. Según la Organización de las Naciones Unidas (ONU), “las mujeres están por debajo de los hombres en todos los indicadores de desarrollo sostenible” (2018). Por lo tanto, si las mujeres poseen un menor acceso a educación, salud, empleo, entre otros indicadores de desarrollo, esto impactará negativamente en sus ingresos y capacidad de gasto, por lo que serán consideradas como pobres con mayor probabilidad. En ese sentido, el sexo de las personas tiene un impacto en dimensiones importantes de sus vidas que debe ser considerado, pues pueden condicionar a que determinado sexo tenga mayores probabilidades de terminar en la pobreza. 
+
+En segundo lugar, se emplearán dos variables relacionadas a la educación de los miembros del hogar. Por un lado, se buscará relacionar el grado alcanzado de estudios de una persona con su condición de pobre o no pobre. Por otro lado, se considerará si la persona sabe leer y escribir para observar si esto aumenta o disminuye sus probabilidades de ser considerada pobre. Merino Núñez et al afirman que “a mayor nivel de educación [,] menor será la posibilidad de que los individuos alcancen un nivel de pobreza, pero si el individuo es pobre, el obtener una mejor educación le permite una mayor posibilidad de salir adelante” (2020). De esta manera, existiría una fuerte relación entre la condición de pobreza de una persona y su nivel de estudios alcanzados y su capacidad de lectura y escritura; puesto que, si el individuo sabe leer y escribir, y posee un mayor nivel de educación, se puede aspirar a un mejor empleo con un mejor sueldo que aumente sus ingresos, reduciendo sus probabilidades de ser considerado pobre. 
+
+En tercer lugar, se emplearán dos variables relacionadas a la salud. Se considerará si la persona padece un malestar crónico y si ha recibido servicios de planificación familiar para averiguar si dichas condiciones aumentan o disminuyen la probabilidad de ser considerada pobre. Diversas investigaciones académicas postulan que existiría una relación de causalidad entre la pobreza y la salud que funciona en doble sentido: “la pobreza genera mala salud, y la mala salud hace que los pobres sigan siendo pobres” (Wagstaff, 2002). De esta manera, este trabajo buscará relacionar el padecimiento de una enfermedad crónica con la condición de pobreza de una persona, para determinar si hay alguna relación. Según un artículo de Miguel Gutiérrez, “la PF [planificación familiar] estimula el desarrollo económico y la mejora del nivel de vida”, por lo que se intentará comprobar si en efecto si una persona recibe servicios de planificación familiar reducirá su probabilidad de ser considerada pobre. 
+
+En cuarto lugar, se empleará una variable relacionada al tipo de empleo de los miembros del hogar. Lo que se busca saber es si un determinado tipo de empleo de una persona aumenta sus probabilidades de ser considerada pobre según la ENAHO 2019. Altimir (1997) afirma que “hay ciertas características del puesto de trabajo (...) que elevan la probabilidad de estar en pobreza relativa o grave”; por lo tanto, es importante considerar si el ser empleado, empleador, independiente, obrero, trabajador familiar no remunerado o trabajador del hogar puede aumentar o disminuir las probabilidades de que una persona esté considerada en condición de pobreza según la medida monetaria del INEI. 
+
+En quinto lugar, se emplearán dos variables relacionadas a lo que este trabajo denomina conectividad, como el acceso a internet en el hogar y a un celular propio. Coria et al (2011) mencionan que “las limitaciones o carencias para acceder a la información pueden tener graves consecuencias en una localidad, porque la información no sólo es fuente de conocimiento, sino sobre todo fuente de ampliación de libertades económicas, sociales, políticas y culturales”. En ese sentido, lo que se busca es determinar si la carencia de acceso a internet o de un celular propio puede aumentar o disminuir la probabilidad de que una persona esté o no en condición de pobreza según la data recopilada por la ENAHO. 
+
+En sumatoria, la pregunta de investigación que orienta a este trabajo es la siguiente: ¿Las variables relacionadas a sexo, educación, salud, empleo y conectividad pueden predecir si una persona es considerada pobre o no según la medición de pobreza del INEI? Es importante recordar que este trabajo no pretende crear un nuevo modelo de medición de la pobreza, ya que está fuera de las posibilidades de los autores. Lo que se busca es demostrar que otras variables pueden incidir en la condición de pobreza de una persona, lo que es un llamado a la academia y a los medidores de pobreza a considerar más variables aparte de los ingresos y capacidad de gasto de los individuos al momento de determinar si estos están en condición de pobreza. 
+
+
+A continuación, se presentará un análisis descriptivo, que incluirá medidas de tendencia central y dispersión de cada una de las variables propuestas para responder a la pregunta de investigación
+
+```{r Importar base de datos, echo=FALSE}
+library(rio)
+mod1=import("Enaho01-2019-100.sav")
+mod2=import("Enaho01-2019-200.sav")
+mod3=import("Enaho01A-2019-300.sav")
+mod4=import("Enaho01A-2019-400.sav")
+mod5=import("Enaho01a-2019-500.sav")
+sum=import("sumaria-2019.dta")
+```
+
+
+```{r Filtrar variables a usar, echo=FALSE}
+library(tidyverse)
+mod1_filtrado <- mod1 %>% 
+  select(P1142,P1144)
+mod2_filtrado <- mod2 %>% 
+  select(P207)
+mod3_filtrado <- mod3 %>% 
+  select(P301A,P302)
+mod4_filtrado <- mod4 %>% 
+  select(P401,P413D1)
+mod5_filtrado <- mod5 %>% 
+  select(P507)
+sum_filtrado <- sum %>% 
+  select(pobreza)
+mod1_filtrado=na.omit(mod1_filtrado)
+mod2_filtrado=na.omit(mod2_filtrado)
+```
+
+
+```{r Configuración Modulo 1, echo=FALSE}
+library(DescTools)
+#Sobre telefono
+mod1_filtrado$telefono=as.factor(mod1_filtrado$P1142) 
+levels(mod1_filtrado$telefono)=c("No", "Si")
+library(DescTools)
+#Sobre Internet
+mod1_filtrado$internet=as.factor(mod1_filtrado$P1144) 
+levels(mod1_filtrado$internet)=c("No", "Si")
+```
+
+
+```{r Configuración Módulo 2, echo=FALSE}
+#Sobre Sexo
+mod2_filtrado$sexo=as.factor(mod2_filtrado$P207) 
+levels(mod2_filtrado$sexo)=c("Hombre", "Mujer")
+```
+
+
+```{r Configuración Módulo 3, echo=FALSE}
+#Sobre Nivel de educación alcanzado
+mod3_filtrado$niveleduc=as.factor(mod3_filtrado$P301A) 
+levels(mod3_filtrado$niveleduc)=c("Sin_nivel", "Educacion_Inicial", "Primaria_incompleta", "Primaria_completa", "Secundaria_incompleta", "Secundaria_completa", "Superior_tecnica_incompleta", "Superior_tecnica_completa", "Superior_universitaria_incompleta", "Superior_universitaria_completa", "Maestria_doctorado","Basica_especial")
+#Sobre Si sabe leer o escribir
+mod3_filtrado$leeryesc=as.factor(mod3_filtrado$P302) 
+levels(mod3_filtrado$leeryesc)=c("Si", "No")
+```
+
+
+```{r Configuración Módulo 4, echo=FALSE}
+#Sobre padecer malestar crónico
+mod4_filtrado$malcro=as.factor(mod4_filtrado$P401) 
+levels(mod4_filtrado$malcro)=c("Si", "No")
+#Sobre si recibió planificación familiar
+mod4_filtrado$planfam=as.factor(mod4_filtrado$P413D1) 
+levels(mod4_filtrado$planfam)=c("Si", "No", "No_corresponde")
+```
+
+
+```{r Configuración Módulo 5, echo=FALSE}
+#Sobre tipo de empleo
+mod5_filtrado$tipoempleo=as.factor(mod5_filtrado$P507) 
+levels(mod5_filtrado$tipoempleo)=c("Empleador", "Trabajador_independiente", "Empleado", "Obrero", "Trabajador_familiar_no_remunerado", "Trabajador_del_hogar", "Otro")
+```
+
+```{r Configuración Sumaria, echo=FALSE}
+#Sobre pobreza
+sum_filtrado$pobrezafactor=as.factor(sum_filtrado$pobreza) 
+levels(sum_filtrado$pobrezafactor)=c("Pobre_extremo", "Pobre", "No_Pobre")
+```
+
+
+#### Medidas de tendencia central para la variable acceso a telefono en el hogar
+
+**Moda** 
+
+```{r echo=TRUE}
+Mode(mod1_filtrado$telefono)
+```
+
+**Barplot**
+
+```{r echo=FALSE}
+barplot(table(mod1_filtrado$telefono),col="blue",
+        xlab=NULL,
+        ylab="Conteo de encuestados",
+        main="Gráfico 1: ¿Tiene usted acceso a un telefono celular en su hogar?")
+```
+
+Como se observa en la gráfica 1, la mayoría de los encuestados de la base ENAHO 2019 tienen acceso a un telefono celular en sus hogares.  
+
+
+#### Medidas de tendencia central para la variable acceso a internet en el hogar
+
+**Moda** 
+
+```{r echo=TRUE}
+Mode(mod1_filtrado$internet)
+```
+
+
+**Barplot**
+
+```{r echo=FALSE}
+barplot(table(mod1_filtrado$internet),col="red",
+        xlab=NULL,
+        ylab="Conteo de encuestados",
+        main="Gráfica 2: ¿Tiene usted acceso a internet en su hogar?")
+```
+
+Como se observa en la gráfica 2, la mayoría de los encuestados de la base ENAHO 2019 no tienen acceso a internet en sus hogares. 
+
+#### Medidas de tendencia central para la variable sexo
+
+**Moda** 
+
+```{r echo=TRUE}
+Mode(mod2_filtrado$sexo)
+```
+
+
+**Gráfico de pie**
+
+```{r}
+library(plotrix)
+pie <- c(63954, 61025)
+pie3D(pie, labels = pie, explode = 0.15)
+
+```
+
+**Barplot**
+
+```{r echo=FALSE}
+barplot(table(mod2_filtrado$sexo),col="yellow",
+        xlab=NULL,
+        ylab="Conteo de encuestados",
+        main="Gráfica 3: Sexo del/la encuestado/a")
+```
+
+Como se observa en la gráfica 3, la mayoría de los encuestados de la base ENAHO 2019 son mujeres, pero la diferencia entre ambos niveles es muy pequeña 
+
+#### Medidas de tendencia central para la variable nivel de educacion alcanzado
+
+**Moda** 
+
+```{r echo=TRUE}
+Mode(mod3_filtrado$niveleduc, na.rm = T)
+```
+
+
+**Barplot**
+
+```{r echo=FALSE}
+barplot(table(mod3_filtrado$niveleduc),col="pink",
+        xlab=NULL,
+        ylab="Conteo de encuestados",
+        main="Gráfica 4: Nivel de educación alcanzado")
+```
+
+Como se observa en la gráfica 4, la mayoría de los encuestados de la base ENAHO 2019 tiene alcanzado el nivel primaria incompleta. Esto es revelador sobre el acceso a educación que una buena parte del país tendría restringido. 
+
+#### Medidas de tendencia central para la variable sobre lectura y escritura
+
+**Moda** 
+
+```{r echo=TRUE}
+Mode(mod3_filtrado$leeryesc, na.rm = T)
+```
+
+
+**Barplot**
+
+```{r echo=FALSE}
+barplot(table(mod3_filtrado$leeryesc),col="lightblue",
+        xlab=NULL,
+        ylab="Conteo de encuestados",
+        main="Gráfica 5: ¿Sabe leer y escribir?")
+```
+
+Como se observa en la gráfica 5, la mayoría de los encuestados de la base ENAHO 2019 sabe leer y escribir. Sin embargo, la diferencia entre no saber y sí saber no es muy grande, lo que revela el nivel de educación que se recibe en el país. 
+
+
+#### Medidas de tendencia central para la variable sobre malestar crónico
+
+**Moda** 
+
+```{r echo=TRUE}
+Mode(mod4_filtrado$malcro, na.rm = T)
+```
+
+
+**Barplot**
+
+```{r echo=FALSE}
+barplot(table(mod4_filtrado$malcro),col="azure2",
+        xlab=NULL,
+        ylab="Conteo de encuestados",
+        main="Gráfica 6: ¿Padece de algún malestar crónico?")
+```
+
+Como se observa en la gráfica 6, la mayoría de los encuestados de la base ENAHO 2019 no padece algún malestar crónico como hipertensión, asma, reumatismo, diabetes, tuberculosis, entre otros. 
+
+
+#### Medidas de tendencia central para la variable sobre recibir planificación familiar 
+
+**Moda** 
+
+```{r echo=TRUE}
+Mode(mod4_filtrado$planfam, na.rm = T)
+```
+
+**Barplot**
+
+```{r echo=FALSE}
+barplot(table(mod4_filtrado$planfam),col="aliceblue",
+        xlab=NULL,
+        ylab="Conteo de encuestados",
+        main="Gráfica 7: ¿Ha recibido servicios de planificación familiar?")
+```
+
+Como se observa en la gráfica 7, la mayoría de los encuestados de la base ENAHO 2019 no han recibido ningún tipo de servicio acerca de planificación familiar. Esto revela que desde el Estado no se contribuye adecuadamente a la expansión de educación sexual y planificación en el territorio. 
+
+
+#### Medidas de tendencia central para la variable sobre tipo de empleo 
+
+**Moda** 
+
+```{r echo=TRUE}
+Mode(mod5_filtrado$tipoempleo, na.rm = T)
+```
+
+
+**Barplot**
+
+```{r echo=FALSE}
+barplot(table(mod5_filtrado$tipoempleo),col="beige",
+        xlab=NULL,
+        ylab="Conteo de encuestados",
+        main="Gráfica 8: Tipo de empleo")
+```
+
+Como se observa en la gráfica 8, la mayoría de los encuestados de la base ENAHO 2019 están calificados como trabajador independiente. Esto tiene bastante sentido considerando los altos niveles de autoempleo e informalidad que siempre han caracterizado al país. 
+
+#### Medidas de tendencia central para la variable sobre pobreza
+
+**Moda** 
+
+```{r echo=TRUE}
+Mode(sum_filtrado$pobrezafactor, na.rm = T)
+```
+
+
+**Barplot**
+
+```{r echo=FALSE}
+tablapobreza=table(sum_filtrado$pobrezafactor)
+tablapobrezaporcentual=prop.table(tablapobreza)
+barplot(tablapobrezaporcentual*100,col="lightgreen",
+        xlab=NULL,
+        ylab="Porcentaje",
+        main="Gráfica 9: Pobreza")
+```
+
+Como se observa en la gráfica 9, la mayoría de los encuestados de la base ENAHO 2019 están calificados como no pobre. Asimismo, se puede observar que casi un 20% de los encuestados se encuentran en situación de pobreza.
+
+#### *Sobre los modelos a utilizar*
+
+Para responder a la pregunta de investigación y considerando que todas las variables en cuestión son categóricas de dos o más niveles, se propone realizar modelos de regresión logísticos multiples. Esto debido a que la presente investigación busca predecir la pobreza con variables externas a la capacidad de gasto, y, como se ha podido observar en el análisis descriptivo, la variable pobreza es una categórica de tres niveles. En ese sentido, el modelo más preciso para lo que se propone es un modelo de regresión logistica múltiple.
+
+**Bibliografía**
+
+Merino Núñez, M., Córdova Chirinos, J. W., Aguirre Pintado, J. M., García Yovera, A. J., & López Ñiquen, K. E. (2020). Nivel de percepción sobre la Pobreza en el Perú, causas y efectos sociales. Revista Universidad y Sociedad, 12(6), 46-53
+
+Urzúa, A., & Caqueo-Urízar, A. (2012). Calidad de vida: Una revisión teórica del concepto. Terapia psicológica, 30(1), 61-71.
+
+Banco Interamericano de Desarrollo. (2020). La realidad social. Módulo 1 - pobreza, desigualdad y movilidad social.
+
+Parodi, Carlos,(1 de noviembre de 2021). ¿Cómo se mide la pobreza?. Gestión https://gestion.pe/blog/economiaparatodos/2019/03/como-se-mide-la-pobreza-3.html/
+
+Gutiérrez, Miguel. (2013). La planificación familiar como herramienta básica para el desarrollo. Revista Peruana de Medicina Experimental y Salud Publica, 30(3), 465-470. Recuperado en 01 de noviembre de 2021, de http://www.scielo.org.pe/scielo.php?script=sci_arttext&pid=S1726-46342013000300016&lng=es&tlng=es.
+
+Organización de las Naciones Unidas. (2018). Las mujeres están por debajo de los hombres en todos los indicadores de desarrollo sostenible. Mirada global Historias humanas. https://news.un.org/es/story/2018/02/1427081 
+Wagstaff, A. (2002). Pobreza y desigualdades en el sector de la salud. Revista Panamericana de salud pública, 11, 316-326.
+
+Altimir, O. (1997). Desigualdad, empleo y pobreza en América Latina: efectos del ajuste y del cambio en el estilo de desarrollo. Desarrollo económico, 3-30.
+
+Coria, Sergio R., & Pérez-Meza, Mónica, & Mendoza-Cortés, Elsa, & Martínez-Peláez, Rafael (2011). Brecha Digital y Pobreza Digital en el Estado de Oaxaca. Conciencia Tecnológica,  (42),19-25.[fecha de Consulta 1 de Noviembre de 2021]. ISSN: 1405-5597. Disponible en:   https://www.redalyc.org/articulo.oa?id=94421442004
+
+
+**Link de GitHub*
+
+https://github.com/JeanCarloLinoArtica/Trabajo-Esta2
+
