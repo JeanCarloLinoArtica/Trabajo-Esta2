@@ -1,0 +1,119 @@
+---
+title: "Prueba data"
+author: "Alessandra Guevara"
+date: "19/12/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+library(rio)
+mod1=import("Enaho01-2019-100.sav")
+mod2=import("Enaho01-2019-200.sav")
+mod3=import("Enaho01A-2019-300.sav")
+mod4=import("Enaho01A-2019-400.sav")
+mod5=import("Enaho01a-2019-500.sav")
+sum=import("sumaria-2019.dta")
+```
+
+```{r}
+library(tidyverse)
+sum$CONGLOME=sum$conglome
+sum$UBIGEO=sum$ubigeo
+sum$VIVIENDA=sum$vivienda
+sum$HOGAR=sum$hogar
+sum$DOMINIO=sum$dominio
+sum$ESTRATO=sum$estrato
+```
+
+```{r}
+mod1 = mod1 %>% select(CONGLOME,UBIGEO,VIVIENDA, HOGAR, DOMINIO, ESTRATO, P1142,P1144)
+mod2 = mod2 %>% select(CONGLOME,UBIGEO, VIVIENDA, HOGAR, DOMINIO, ESTRATO, P207)
+mod3 = mod3 %>% select(CONGLOME,UBIGEO, VIVIENDA, HOGAR, DOMINIO, ESTRATO, P301A,P302)
+mod4 = mod4 %>% select(CONGLOME,UBIGEO, VIVIENDA, HOGAR, DOMINIO, ESTRATO, P401,P413D1)
+mod5 = mod5 %>% select(CONGLOME,UBIGEO, VIVIENDA, HOGAR, DOMINIO, ESTRATO, P507)
+sum = sum %>% select(CONGLOME,UBIGEO, VIVIENDA, HOGAR, DOMINIO, ESTRATO, pobreza)
+```
+
+```{r}
+enaho= mod1 %>% left_join(mod2)
+enaho= enaho %>% left_join(mod3)
+enaho= enaho %>% left_join(mod4)
+enaho= enaho %>% left_join(mod5)
+enaho= enaho %>% left_join(sum)
+```
+
+
+```{r Configuración Modulo 1, echo=FALSE}
+library(DescTools)
+#Sobre telefono
+enaho$telefono=as.factor(enaho$P1142) 
+levels(enaho$telefono)=c("No", "Si")
+#Sobre Internet
+enaho$internet=as.factor(enaho$P1144) 
+levels(enaho$internet)=c("No", "Si")
+```
+
+
+```{r Configuración Módulo 2, echo=FALSE}
+#Sobre Sexo
+enaho$sexo=as.factor(enaho$P207) 
+levels(enaho$sexo)=c("Hombre", "Mujer")
+```
+
+
+```{r Configuración Módulo 3, echo=FALSE}
+#Sobre Nivel de educación alcanzado
+enaho$niveleduc=as.factor(enaho$P301A) 
+levels(enaho$niveleduc)=c("Sin_nivel", "Educacion_Inicial", "Primaria_incompleta", "Primaria_completa", "Secundaria_incompleta", "Secundaria_completa", "Superior_tecnica_incompleta", "Superior_tecnica_completa", "Superior_universitaria_incompleta", "Superior_universitaria_completa", "Maestria_doctorado","Basica_especial")
+#Sobre Si sabe leer o escribir
+enaho$leeryesc=as.factor(enaho$P302) 
+levels(enaho$leeryesc)=c("Si", "No")
+```
+
+
+```{r Configuración Módulo 4, echo=FALSE}
+#Sobre padecer malestar crónico
+enaho$malcro=as.factor(enaho$P401) 
+levels(enaho$malcro)=c("Si", "No")
+#Sobre si recibió planificación familiar
+enaho$planfam=as.factor(enaho$P413D1) 
+levels(enaho$planfam)=c("Si", "No", "No_corresponde")
+```
+
+
+```{r Configuración Módulo 5, echo=FALSE}
+#Sobre tipo de empleo
+enaho$tipoempleo=as.factor(enaho$P507) 
+levels(enaho$tipoempleo)=c("Empleador", "Trabajador_independiente", "Empleado", "Obrero", "Trabajador_familiar_no_remunerado", "Trabajador_del_hogar", "Otro")
+```
+
+
+```{r Configuración Sumaria, echo=FALSE}
+#Sobre pobreza
+enaho$pobrezafactor=as.factor(enaho$pobreza) 
+levels(enaho$pobrezafactor)=c("Pobre_extremo", "Pobre", "No_Pobre")
+```
+
+
+```{r}
+enahoprueba<-select(enaho, pobreza, pobrezafactor, telefono, internet, sexo, niveleduc, leeryesc, malcro, planfam, tipoempleo,CONGLOME,UBIGEO,VIVIENDA, HOGAR, DOMINIO, ESTRATO)
+```
+
+
+```{r}
+enahodata<- enahoprueba[complete.cases(enahoprueba), ]
+```
+
+
+```{r}
+library(foreign)
+
+write.dta(enahodata, "enaho.dta")
+```
+

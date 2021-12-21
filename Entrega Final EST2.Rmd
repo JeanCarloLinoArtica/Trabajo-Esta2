@@ -1,0 +1,1176 @@
+---
+title: "Entrega Final" 
+author: "Alessandra Guevara y Jean Carlo Lino"
+date: "19/12/2021"
+output:
+  html_document:
+    theme: spacelab
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+
+<center> <h1>La pobreza: un necesario cambio de enfoque</h1> </center>
+
+**Índice** 
+
+  1. [Introducción](#id1)
+
+1.1. [Revisión de literatura](#id2)
+  
+1.2. [Hipótesis y pregunta de investigación](#id3)
+
+  2. [Metodología](#id4)
+
+  3. [Análisis exploratorio](#id5) 
+
+  4. [Modelos de regresión](#id6)
+
+4.1 [Modelo sobre variables relacionadas a comunicaciones](#id7)
+  
+4.2 [Modelo sobre variables relacionadas a sexo](#id8)
+  
+4.3 [Modelo sobre variables relacionadas a educación](#id9)
+  
+4.4 [Modelo sobre variables relacionadas a salud](#id10)
+  
+4.5 [Modelo sobre variables relacionadas a empleo](#id11)
+  
+  5. [Breve análisis de los modelos por sector](#id12)
+
+  6. [Modelo de predicción de variables mixtas](#id13)
+
+  7. [Análisis factorial](#id14)
+
+7.1 [Nombramiento de nuevas variables latentes](#id15)
+  
+7.2 [Modelo sobre satisfacción con democracia](#id16)
+  
+  8. [Hallazgos y conlusiones](#id17)
+
+  9. [Bibliografía](#id18)
+
+
+
+### Introducción<a name="id1"></a>
+
+<div style="text-align: justify"> La pobreza en el Perú es un mal endémico que se intenta combatir desde distintos frentes. A lo largo de los años, se han adoptado diferentes estrategias desde el Estado para intentar reducirla. La mayoría de políticas públicas formuladas por los gobiernos han tratado esta problemática socioeconómica con un lente únicamente monetario, siendo “una de las maneras más frecuentes de medir la pobreza (…) a través de la falta de ingresos necesarios para adquirir la canasta básica de alimentos” (BID 2020). Así, se calcula una línea de pobreza en base al precio de la canasta básica familiar de alimentos, con la cual se determina si una familia está en condición de pobreza: de acuerdo al gasto en el que la familia incurra, se clasificará como “pobre” si este monto está por debajo del precio de una canasta básica (línea de pobreza). Si bien, previo a la pandemia mundial, la pobreza monetaria había disminuído 0.7 puntos porcentuales en la última década, según el INEI (2020), “en el año 2020, la pobreza monetaria afectó al 30,1% de la población del país, incrementándose en 9,9 puntos porcentuales en comparación con el año 2019.” </div> <br>
+
+
+#### Revisión de Literatura<a name="id2"></a>
+
+
+<div style="text-align: justify"> Aunque la medición monetaria ha servido para tener cierto parámetro de las personas en condición de pobreza en el país, lo cierto es que esta medición no es precisa para determinar la calidad de vida de una persona. Amartya Sen diferenciaba el concepto de capacidad humana del capital humano, ya que este último se centraba en el rol del ser humano como productor de bienes y servicios, mientras que la capacidad humana hace referencia a la capacidad de los individuos para autodeterminarse (Sen en Urzúa y Caqueo-Urízar, 2012). Así, si únicamente se considera la capacidad de gasto de las familias para determinar si son pobres o no, se estarían excluyendo otros indicadores importantes como la salud, educación, empleo, entre otros que mejoran la calidad de vida de las personas al permitirles acceder a mayores recursos y, por ende, a tener un mayor desarrollo humano. Sobre lo mencionado, Carlos Parodi, en un artículo publicado, afirma que “una familia puede tener el ingreso para comprar la canasta que lo clasifica como no pobre, pero vive en condiciones de hacinamiento, sin agua ni desagüe, sin energía eléctrica y en una vivienda precaria (…) [eso] también sería pobre, a pesar que con el método descrito aparecería como no pobre”. Esto revela una carencia en la forma de medir la pobreza que ha imperado en el país durante décadas y que moldea la forma en la que el Estado responde a este problema.</div> <br>
+
+<div style="text-align: justify"> La Encuesta Nacional de Hogares (ENAHO) es una encuesta realizada por el Instituto Nacional de Estadística (INEI) desde el año 1995, para “efectuar el seguimiento de los indicadores sobre las condiciones de vida” de los diferentes hogares del país. En ella se mide distintos aspectos de las características de un hogar y sus miembros como la salud, educación, empleo, transportes, entre otros. Además, en esta encuesta se utiliza un método monetario para poder determinar si un hogar está en condición de pobreza. Si bien también existe una medición de pobreza que contempla las necesidades básicas insatisfechas, esta sigue sin considerar variables importantes como el grado de instrucción de todos los miembros del hogar, la precariedad del empleo, si los miembros sufren malestares crónicos (salud), entre otras variables que podrían influir en que una persona sea considerada pobre al margen del nivel de gasto.</div> <br>
+
+<div style="text-align: justify"> En ese sentido, el presente trabajo intenta demostrar que otras variables, además de las consideradas por el INEI para medir la pobreza, pueden “predecir” si una persona está considerada como pobre o no de acuerdo a la medición monetaria. Esto con el fin de contribuir a la academia a evidenciar que un enfoque monetario es insuficiente para poder determinar la calidad de vida de una persona, y demostrar que otras variables pueden condicionar a una persona a la pobreza además del nivel de gasto. Se propone que variables relacionadas al sexo, educación, salud, empleo y conectividad pueden explicar que una persona sea considerada como pobre según el INEI. Para ello se utilizará la información recopilada en la ENAHO del año 2019 y su medición de pobreza.</div> <br>
+
+
+#### Hipótesis y pregunta de investigación <a name="id3"></a>
+
+
+<div style="text-align: justify"> En primer lugar, se empleará la variable sexo para demostrar que las mujeres poseen una inclinación o vulnerabilidad a ser consideras como pobres en mayor medida que los hombres. Según la Organización de las Naciones Unidas (ONU), “las mujeres están por debajo de los hombres en todos los indicadores de desarrollo sostenible” (2018). Por lo tanto, si las mujeres poseen un menor acceso a educación, salud, empleo, entre otros indicadores de desarrollo, esto impactará negativamente en sus ingresos y capacidad de gasto, por lo que serán consideradas como pobres con mayor probabilidad. En ese sentido, el sexo de las personas tiene un impacto en dimensiones importantes de sus vidas que debe ser considerado, pues pueden condicionar a que determinado sexo tenga mayores probabilidades de terminar en la pobreza.</div> <br>
+
+<div style="text-align: justify"> En segundo lugar, se emplearán dos variables relacionadas a la educación de los miembros del hogar. Por un lado, se buscará relacionar el grado alcanzado de estudios de una persona con su condición de pobre o no pobre. Por otro lado, se considerará si la persona sabe leer y escribir para observar si esto aumenta o disminuye sus probabilidades de ser considerada pobre. Merino Núñez et al afirman que “a mayor nivel de educación [,] menor será la posibilidad de que los individuos alcancen un nivel de pobreza, pero si el individuo es pobre, el obtener una mejor educación le permite una mayor posibilidad de salir adelante” (2020). De esta manera, existiría una fuerte relación entre la condición de pobreza de una persona y su nivel de estudios alcanzados y su capacidad de lectura y escritura; puesto que, si el individuo sabe leer y escribir, y posee un mayor nivel de educación, se puede aspirar a un mejor empleo con un mejor sueldo que aumente sus ingresos, reduciendo sus probabilidades de ser considerado pobre.</div> <br>
+
+<div style="text-align: justify"> En tercer lugar, se emplearán dos variables relacionadas a la salud. Se considerará si la persona padece un malestar crónico y si ha recibido servicios de planificación familiar para averiguar si dichas condiciones aumentan o disminuyen la probabilidad de ser considerada pobre. Diversas investigaciones académicas postulan que existiría una relación de causalidad entre la pobreza y la salud que funciona en doble sentido: “la pobreza genera mala salud, y la mala salud hace que los pobres sigan siendo pobres” (Wagstaff, 2002). De esta manera, este trabajo buscará relacionar el padecimiento de una enfermedad crónica con la condición de pobreza de una persona, para determinar si hay alguna relación. Según un artículo de Miguel Gutiérrez, “la PF [planificación familiar] estimula el desarrollo económico y la mejora del nivel de vida”, por lo que se intentará comprobar si en efecto si una persona recibe servicios de planificación familiar reducirá su probabilidad de ser considerada pobre. </div> <br>
+
+<div style="text-align: justify"> En cuarto lugar, se empleará una variable relacionada al tipo de empleo de los miembros del hogar. Lo que se busca saber es si un determinado tipo de empleo de una persona aumenta sus probabilidades de ser considerada pobre según la ENAHO 2019. Altimir (1997) afirma que “hay ciertas características del puesto de trabajo (…) que elevan la probabilidad de estar en pobreza relativa o grave”; por lo tanto, es importante considerar si el ser empleado, empleador, independiente, obrero, trabajador familiar no remunerado o trabajador del hogar puede aumentar o disminuir las probabilidades de que una persona esté considerada en condición de pobreza según la medida monetaria del INEI.</div> <br>
+
+<div style="text-align: justify"> En quinto lugar, se emplearán dos variables relacionadas a lo que este trabajo denomina conectividad, como el acceso a internet en el hogar y a un celular propio. Coria et al (2011) mencionan que “las limitaciones o carencias para acceder a la información pueden tener graves consecuencias en una localidad, porque la información no sólo es fuente de conocimiento, sino sobre todo fuente de ampliación de libertades económicas, sociales, políticas y culturales”. En ese sentido, lo que se busca es determinar si la carencia de acceso a internet o de un celular propio puede aumentar o disminuir la probabilidad de que una persona esté o no en condición de pobreza según la data recopilada por la ENAHO.</div> <br>
+
+<div style="text-align: justify"> En sumatoria, la pregunta de investigación que orienta a este trabajo es la siguiente: ¿Las variables relacionadas a sexo, educación, salud, empleo y conectividad pueden predecir si una persona es considerada pobre o no según la medición de pobreza del INEI? Es importante recordar que este trabajo no pretende crear un nuevo modelo de medición de la pobreza, ya que está fuera de las posibilidades de los autores. Lo que se busca es demostrar que otras variables pueden incidir en la condición de pobreza de una persona, lo que es un llamado a la academia y a los medidores de pobreza a considerar más variables aparte de los ingresos y capacidad de gasto de los individuos al momento de determinar si estos están en condición de pobreza. </div> <br>
+
+
+### Metodología <a name="id4"></a>
+
+
+<div style="text-align: justify"> Para el presente trabajo, se ha utilizado un diseño de método no experimental, puesto que la base de datos venía dada y la mayoría de variables son manifiestas y categóricas. Consideramos que la base ENAHO era la más completa y adecuada para comprobar hipótesis de gran calibre como la que se propone en este trabajo. Como se mencionó en la introducción, dicha base recolecta la situación de miles de hogares a nivel nacional para saber su estado y condición en diferentes aspectos de la vida diaria. En ese sentido, la base era perfecta para la propuesta de esta investigación. </div> <br>
+
+<div style="text-align: justify"> Se decidió usar modelos logísticos binarios porque se buscaba predecir las probabilidades de que una persona era considerada pobre o no. Así, al ser dos categorías las que se busca predecir, este tipo de modelo era perfecto, ya que también permite tomar varias variables independientes y no numéricas. Asimismo, es importante escoger un modelo que nos permita predecir la probabilidad, puesto que, como se mencionó anteriormente, este trabajo busca proponer una mirada alejada de la pobreza monetaria, en la cual los factores no númericos relacionados a aspectos distintos al gasto son importantes y determinan la calidad de vida de una persona. </div> <br>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(rio)
+enaho=import("enaho.dta")
+```
+
+
+```{r Configuración Modulo 1, echo=FALSE}
+library(DescTools)
+#Sobre telefono
+enaho$telefono=as.factor(enaho$telefono) 
+levels(enaho$telefono)=c("No", "Si")
+#Sobre Internet
+enaho$internet=as.factor(enaho$internet) 
+levels(enaho$internet)=c("No", "Si")
+```
+
+
+```{r Configuración Módulo 2, echo=FALSE}
+#Sobre Sexo
+enaho$sexo=as.factor(enaho$sexo) 
+levels(enaho$sexo)=c("Hombre", "Mujer")
+```
+
+
+```{r Configuración Módulo 3, echo=FALSE}
+#Sobre Nivel de educación alcanzado
+enaho$niveleduc=as.factor(enaho$niveleduc) 
+levels(enaho$niveleduc)=c("Sin_nivel", "Educacion_Inicial", "Primaria_incompleta", "Primaria_completa", "Secundaria_incompleta", "Secundaria_completa", "Superior_tecnica_incompleta", "Superior_tecnica_completa", "Superior_universitaria_incompleta", "Superior_universitaria_completa", "Maestria_doctorado","Basica_especial")
+#Sobre Si sabe leer o escribir
+enaho$leeryesc=as.factor(enaho$leeryesc) 
+levels(enaho$leeryesc)=c("Si", "No")
+```
+
+
+```{r Configuración Módulo 4, echo=FALSE}
+#Sobre padecer malestar crónico
+enaho$malcro=as.factor(enaho$malcro) 
+levels(enaho$malcro)=c("Si", "No")
+#Sobre si recibió planificación familiar
+enaho$planfam=as.factor(enaho$planfam) 
+levels(enaho$planfam)=c("Si", "No", "No_corresponde")
+```
+
+
+```{r Configuración Módulo 5, echo=FALSE}
+#Sobre tipo de empleo
+enaho$tipoempleo=as.factor(enaho$tipoempleo) 
+levels(enaho$tipoempleo)=c("Empleador", "Trabajador_independiente", "Empleado", "Obrero", "Trabajador_familiar_no_remunerado", "Trabajador_del_hogar", "Otro")
+```
+
+
+```{r Configuración Sumaria, echo=FALSE}
+#Sobre pobreza
+enaho$pobrezafactor=as.factor(enaho$pobrezafactor) 
+levels(enaho$pobrezafactor)=c("Pobre_extremo", "Pobre", "No_Pobre")
+```
+
+
+### Análisis exploratorio <a name="id5"></a>
+
+#### Medidas de tendencia central para la variable acceso a telefono en el hogar
+
+**Moda** 
+
+```{r echo=TRUE}
+Mode(enaho$telefono)
+```
+
+**Barplot**
+
+```{r echo=FALSE}
+barplot(prop.table(table(enaho$telefono))*100,col="blue",
+        xlab=NULL,
+        ylab="Porcentaje de encuestados (%)",
+        main="Gráfico 1: ¿Tiene usted acceso a un telefono celular en su hogar?")
+```
+
+<div style="text-align: justify"> Como se observa en la gráfica 1, la mayoría de los encuestados de la base ENAHO 2019 tienen acceso a un telefono celular en sus hogares.</div>
+
+
+#### Medidas de tendencia central para la variable acceso a internet en el hogar
+
+**Moda** 
+
+```{r echo=TRUE}
+Mode(enaho$internet)
+```
+
+
+**Barplot**
+
+```{r echo=FALSE}
+barplot(prop.table(table(enaho$internet))*100,col="red",
+        xlab=NULL,
+        ylab="Porcentaje de encuestados (%)",
+        main="Gráfica 2: ¿Tiene usted acceso a internet en su hogar?")
+```
+
+<div style="text-align: justify"> Como se observa en la gráfica 2, la mayoría de los encuestados de la base ENAHO 2019 no tienen acceso a internet en sus hogares. </div>
+
+#### Medidas de tendencia central para la variable sexo
+
+**Moda** 
+
+```{r echo=TRUE}
+Mode(enaho$sexo)
+```
+
+```{r}
+prop.table(table(enaho$sexo))*100
+```
+
+
+**Gráfico de pie**
+
+```{r}
+library(plotrix)
+pie <- c(53.3695, 46.6305)
+pie3D(pie, labels = pie, explode = 0.15)
+
+```
+
+
+**Barplot**
+
+```{r echo=FALSE}
+barplot(prop.table(table(enaho$sexo))*100,col="yellow",
+        xlab=NULL,
+        ylab="Porcentaje de encuestados (%)",
+        main="Gráfica 3: Sexo del/la encuestado/a")
+```
+
+<div style="text-align: justify"> Como se observa en la gráfica 3, la mayoría de los encuestados de la base ENAHO 2019 son mujeres, pero la diferencia entre ambos niveles es muy pequeña </div>
+
+#### Medidas de tendencia central para la variable nivel de educacion alcanzado
+
+**Moda** 
+
+```{r echo=TRUE}
+Mode(enaho$niveleduc, na.rm = T)
+```
+
+
+**Barplot**
+
+```{r echo=FALSE}
+barplot(prop.table(table(enaho$niveleduc))*100,col="pink",
+        xlab=NULL,
+        ylab="Porcentaje de encuestados (%)",
+        main="Gráfica 4: Nivel de educación alcanzado")
+```
+
+<div style="text-align: justify"> Como se observa en la gráfica 4, la mayoría de los encuestados de la base ENAHO 2019 tiene alcanzado el nivel primaria incompleta. Esto es revelador sobre el acceso a educación que una buena parte del país tendría restringido. Asimismo, el porcentaje de los encuestados que poseen educación superior, ya sea técnica o universitaria, es ínfimo.</div>
+
+
+#### Medidas de tendencia central para la variable sobre lectura y escritura
+
+**Moda** 
+
+```{r echo=TRUE}
+Mode(enaho$leeryesc, na.rm = T)
+```
+
+
+**Barplot**
+
+```{r echo=FALSE}
+barplot(prop.table(table(enaho$leeryesc))*100,col="lightblue",
+        xlab=NULL,
+        ylab="Porcentaje de encuestados (%)",
+        main="Gráfica 5: ¿Sabe leer y escribir?")
+```
+
+<div style="text-align: justify"> Como se observa en la gráfica 5, la mayoría de los encuestados de la base ENAHO 2019 sabe leer y escribir. Sin embargo, la diferencia entre no saber y sí saber no es muy grande, lo que revela el nivel de educación que se recibe en el país.</div>
+
+
+#### Medidas de tendencia central para la variable sobre malestar crónico
+
+**Moda** 
+
+```{r echo=TRUE}
+Mode(enaho$malcro, na.rm = T)
+```
+
+
+**Barplot**
+
+```{r echo=FALSE}
+barplot(prop.table(table(enaho$malcro))*100,col="azure2",
+        xlab=NULL,
+        ylab="Porcentaje de encuestados (%)",
+        main="Gráfica 6: ¿Padece de algún malestar crónico?")
+```
+
+<div style="text-align: justify"> Como se observa en la gráfica 6, la mayoría de los encuestados de la base ENAHO 2019 no padece algún malestar crónico como hipertensión, asma, reumatismo, diabetes, tuberculosis, entre otros.</div>
+
+
+#### Medidas de tendencia central para la variable sobre recibir planificación familiar 
+
+**Moda** 
+
+```{r echo=TRUE}
+Mode(enaho$planfam, na.rm = T)
+```
+
+**Barplot**
+
+```{r echo=FALSE}
+barplot(prop.table(table(enaho$planfam))*100,col="aliceblue",
+        xlab=NULL,
+        ylab="Porcentaje de encuestados (%)",
+        main="Gráfica 7: ¿Ha recibido servicios de planificación familiar?")
+```
+
+<div style="text-align: justify"> Como se observa en la gráfica 7, la mayoría de los encuestados de la base ENAHO 2019 no han recibido ningún tipo de servicio acerca de planificación familiar. Esto revela que desde el Estado no se contribuye adecuadamente a la expansión de educación sexual y planificación en el territorio.</div>
+
+
+#### Medidas de tendencia central para la variable sobre tipo de empleo 
+
+**Moda** 
+
+```{r echo=TRUE}
+Mode(enaho$tipoempleo, na.rm = T)
+```
+
+
+**Barplot**
+
+```{r echo=FALSE}
+barplot(prop.table(table(enaho$tipoempleo))*100,col="beige",
+        xlab=NULL,
+        ylab="Porcentaje de encuestados (%)",
+        main="Gráfica 8: Tipo de empleo")
+```
+
+<div style="text-align: justify"> Como se observa en la gráfica 8, la mayoría de los encuestados de la base ENAHO 2019 están calificados como trabajador independiente. Esto tiene bastante sentido considerando los altos niveles de autoempleo e informalidad que siempre han caracterizado al país.</div>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+datatable= prop.table(table(enaho$tipoempleo))*100
+knitr::kable(datatable, digits = 2, align = "l", caption = "Tipo de empleo (%)" )
+```
+
+
+#### Medidas de tendencia central para la variable sobre pobreza
+
+**Moda** 
+
+```{r echo=TRUE}
+Mode(enaho$pobrezafactor, na.rm = T)
+```
+
+
+**Barplot**
+
+```{r echo=FALSE}
+tablapobreza=table(enaho$pobrezafactor)
+tablapobrezaporcentual=prop.table(tablapobreza)
+barplot(tablapobrezaporcentual*100,col="lightgreen",
+        xlab=NULL,
+        ylab="Porcentaje (%)",
+        main="Gráfica 9: Pobreza")
+```
+
+<div style="text-align: justify"> Como se observa en la gráfica 9, la mayoría de los encuestados de la base ENAHO 2019 están calificados como no pobre. Asimismo, se puede observar que casi un 20% de los encuestados se encuentran en situación de pobreza. </div>
+
+<div style="text-align: justify">Para responder a la pregunta de investigación y considerando que todas las variables en cuestión son categóricas de dos o más niveles, se propone realizar modelos de regresión logísticos binarios, como se mencionó en la metodología. Esto debido a que la presente investigación busca predecir la pobreza con variables externas a la capacidad de gasto, y, como se ha podido observar en el análisis descriptivo, la variable pobreza es una categórica de tres niveles que puede ser recodificada en dos grandes categorías. En ese sentido, el modelo más preciso para lo que se propone es un modelo de regresión logistica binaria.</div>
+
+### Modelos de regresión <a name="id6"></a>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(car)
+enaho$pobrezarecode <- recode(enaho$pobreza, "1:2=1; 3=2")
+enaho$pobrezarecode=as.factor(enaho$pobrezarecode)
+levels(enaho$pobrezarecode)=c("Pobre","No_Pobre")
+```
+
+
+#### Modelo sobre variables relacionadas a comunicaciones <a name="id7"></a>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(reshape2)
+enaho$pobrezarecode <- relevel (enaho$pobrezarecode, ref = "No_Pobre")
+```
+
+
+```{r message=FALSE, warning=FALSE}
+modelo1 = glm(pobrezarecode ~ telefono + internet, family = binomial(link="logit") ,data = enaho)
+summary(modelo1)
+```
+
+**Interpretación de los resultados**
+
+1. ¿El modelo es válido?
+
+- H0: El modelo no es válido 
+
+- H1: El modelo es válido
+
+De acuerdo al p valor del intercepto obtenido (<2e-16), se rechaza la H0, y se concluye que el modelo es válido.
+
+2. ¿Las variables aportan al modelo?
+
+- H0: Las variables no aportan al modelo
+
+- H1: Las variables aportan al modelo
+
+De acuerdo al p valor obtenido en ambas variables, se rechaza la H0, y se concluye que la posesión de teléfono e internet sí aportan al modelo
+
+3. ¿Cúal es la relación que tienen las variables con la Variable Dependiente?
+
+-  Si una persona posee teléfono en su hogar, la probabilidad de que sea considerada pobre disminuye (relación inversa).
+
+-  Si una persona posee internet en su hogar, la probabilidad de que sea considerada pobre disminuye (relación inversa).
+
+4. ¿Cuánto predice el modelo?
+
+```{r message=FALSE, warning=FALSE}
+PseudoR2(modelo1, which = c("Nagelkerke"))
+```
+
+El modelo predice en un 16.54% si una persona será considerada pobre, es decir, es una predicción baja
+
+5. Exponenciales
+
+**Sobre la variable teléfono**
+
+```{r}
+(1-exp(-1.055352))*100
+```
+
+Si una persona tiene telefono en su hogar, la probabilidad de que sea considerada pobre disminuye en 65.19301%
+
+**Sobre la variable internet**
+
+```{r}
+(1-exp(-1.770013))*100
+```
+
+Si una persona tiene telefono en su hogar, la probabilidad de que sea considerada pobre disminuye en 82.96692%
+
+
+#### Modelo sobre variable relacionada a sexo<a name="id8"></a>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(reshape2)
+enaho$pobrezarecode <- relevel (enaho$pobrezarecode, ref = "No_Pobre")
+```
+
+
+```{r message=FALSE, warning=FALSE}
+modelo2 = glm(pobrezarecode ~ sexo, family = binomial(link="logit") ,data = enaho)
+summary(modelo2)
+```
+
+**Interpretación de los resultados**
+
+1. ¿El modelo es válido?
+
+- H0: El modelo no es válido 
+
+- H1: El modelo es válido
+
+De acuerdo al p valor del intercepto obtenido (<2e-16), se rechaza la H0, y se concluye que el modelo es válido.
+
+2. ¿Las variables aportan al modelo?
+
+- H0: Las variables no aportan al modelo
+
+- H1: Las variables aportan al modelo
+
+De acuerdo al p valor obtenido en la variable, se rechaza la H0, y se concluye que el sexo de una persona sí aporta al modelo
+
+3. ¿Cúal es la relación que tienen las variables con la Variable Dependiente?
+
+-  Si una persona es mujer, la probabilidad de que sea considerada pobre disminuye (relación inversa).
+
+4. ¿Cuánto predice el modelo?
+
+```{r message=FALSE, warning=FALSE}
+PseudoR2(modelo2, which = c("Nagelkerke"))
+```
+
+El modelo predice en un 0.03113443% si una persona será considerada pobre, es decir, es una predicción bastante baja.
+
+5. Exponenciales
+
+**Sobre la variable sexo**
+
+```{r}
+(1-exp(-0.061660))*100
+```
+
+Si una persona es mujer, la probabilidad de que sea considerada pobre disminuye en 5.97975%
+
+
+#### Modelo sobre variables relacionadas a educación<a name="id9"></a>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(reshape2)
+enaho$pobrezarecode <- relevel (enaho$pobrezarecode, ref = "No_Pobre")
+```
+
+
+```{r message=FALSE, warning=FALSE}
+modelo3 = glm(pobrezarecode ~ niveleduc + leeryesc, family = binomial(link="logit") ,data = enaho)
+summary(modelo3)
+```
+
+**Interpretación de los resultados**
+
+1. ¿El modelo es válido?
+
+- H0: El modelo no es válido 
+
+- H1: El modelo es válido
+
+De acuerdo al p valor del intercepto obtenido (<2e-16), se rechaza la H0, y se concluye que el modelo es válido.
+
+2. ¿Las variables aportan al modelo?
+
+- H0: Las variables no aportan al modelo
+
+- H1: Las variables aportan al modelo
+
+De acuerdo al p valor obtenido en las variables, se rechaza la H0, y se concluye que el nivel básico de educación de una persona y si sabe leer y escribir sí aportan al modelo
+
+3. ¿Cúal es la relación que tienen las variables con la Variable Dependiente?
+
+-  Si el nivel alcanzado de educación de una persona es nivel inicial, la probabilidad de que sea considerada pobre disminuye (relación inversa).
+
+-  Si el nivel alcanzado de educación de una persona es primaria incompleta, la probabilidad de que sea considerada pobre aumenta (relación directa).
+
+-  Si el nivel alcanzado de educación de una persona es primaria completa, la probabilidad de que sea considerada pobre disminuye (relación inversa).
+
+- Si una persona sabe leer y escribir, la probabilidad de que sea considerada pobre aumenta (relación directa)
+
+4. ¿Cuánto predice el modelo?
+
+```{r message=FALSE, warning=FALSE}
+PseudoR2(modelo3, which = c("Nagelkerke"))
+```
+
+El modelo predice en un 15.83% si una persona será considerada pobre, es decir, es una predicción baja
+
+5. Exponenciales
+
+**Sobre la variable nivel de educación inicial alcanzado**
+
+```{r}
+(1-exp(-0.497099))*100
+```
+Si el nivel alcanzado de educación de una persona es inicial, la probabilidad de que sea considerada pobre disminuye en 39.17072%
+
+**Sobre la variable nivel de educación primaria incompleta**
+
+```{r}
+exp(0.193955)
+```
+
+Si el nivel alcanzado de una persona es primaria incompleta, la probabilidad de ser pobre aumenta 1.214042 veces
+
+**Sobre la variable nivel de educación primaria completa**
+
+```{r}
+(1-exp(-0.439429))*100
+```
+
+Si el nivel alcanzado de educación de una persona es primaria completa, la probabilidad de que sea considerada pobre disminuye en 35.55957%
+
+**Sobre la variable nivel de educación primaria incompleta**
+
+```{r}
+exp(0.470198)
+```
+
+Si el nivel alcanzado de una persona es primaria incompleta, la probabilidad de ser pobre aumenta 1.600311 veces
+
+
+#### Modelo sobre variables relacionadas a salud<a name="id10"></a>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(reshape2)
+enaho$pobrezarecode <- relevel (enaho$pobrezarecode, ref = "No_Pobre")
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(fastDummies)
+enaho=dummy_cols(enaho, select_columns = c("planfam"))
+enaho=dummy_cols(enaho, select_columns = c("malcro"))
+```
+
+
+```{r message=FALSE, warning=FALSE}
+modelo4 = glm(pobrezarecode ~ malcro_Si + planfam_Si, family = binomial(link="logit") ,data = enaho)
+summary(modelo4)
+```
+
+**Interpretación de los resultados**
+
+1. ¿El modelo es válido?
+
+- H0: El modelo no es válido 
+
+- H1: El modelo es válido
+
+De acuerdo al p valor del intercepto obtenido (<2e-16), se rechaza la H0, y se concluye que el modelo es válido.
+
+2. ¿Las variables aportan al modelo?
+
+- H0: Las variables no aportan al modelo
+
+- H1: Las variables aportan al modelo
+
+De acuerdo al p valor obtenido en las variables, se rechaza la H0, y se concluye que la afección de males crónicos de una persona y el recibimiento de servicio de planificación familiar sí aportan al modelo
+
+3. ¿Cúal es la relación que tienen las variables con la Variable Dependiente?
+
+-  Si la persona padece de alguna enfermedad crónica, la probabilidad de que sea considerada pobre aumenta (relación directa).
+
+-  Si una persona ha recibido servicios de planificación familiar, la probabilidad de que sea considerada pobre aumenta (relación directa).
+
+
+4. ¿Cuánto predice el modelo?
+
+```{r message=FALSE, warning=FALSE}
+PseudoR2(modelo4, which = c("Nagelkerke"))
+```
+
+El modelo predice en un 2.33% si una persona será considerada pobre, es decir, es una predicción baja
+
+5. Exponenciales
+
+**Sobre la variable de padecimiento de males crónicos**
+
+```{r}
+(1-exp(-0.641994))*100
+```
+
+Si una persona padece de una enfermedad crónica, la probabilidad de que sea considerada pobre disminuye en 47.37579%
+
+**Sobre la variable de servicio de planificación familiar**
+
+```{r}
+exp(0.031028)
+```
+
+Si una persona recibe servicios de planificación familiar, la probabilidad de ser pobre aumenta 1.031514 veces
+
+
+#### Modelo sobre variables relacionadas a tipo de empleo<a name="id11"></a>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(reshape2)
+enaho$pobrezarecode <- relevel (enaho$pobrezarecode, ref = "No_Pobre")
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+enaho=dummy_cols(enaho, select_columns = c("tipoempleo"))
+```
+
+
+```{r message=FALSE, warning=FALSE}
+modelo5 = glm(pobrezarecode ~ tipoempleo_Empleador + tipoempleo_Trabajador_independiente + tipoempleo_Empleado + tipoempleo_Obrero + tipoempleo_Trabajador_familiar_no_remunerado + tipoempleo_Trabajador_del_hogar, family = binomial(link="logit") ,data = enaho)
+summary(modelo5)
+```
+
+**Interpretación de los resultados**
+
+1. ¿El modelo es válido?
+
+- H0: El modelo no es válido 
+
+- H1: El modelo es válido
+
+De acuerdo al p valor del intercepto obtenido (<2e-16), se rechaza la H0, y se concluye que el modelo es válido.
+
+2. ¿Las variables aportan al modelo?
+
+- H0: Las variables no aportan al modelo
+
+- H1: Las variables aportan al modelo
+
+De acuerdo al p valor obtenido en las variables, se rechaza la H0, y se concluye que los distintos tipos de empleo sí aportan al modelo
+
+3. ¿Cúal es la relación que tienen las variables con la Variable Dependiente?
+
+-  Todos los tipos de empleo poseen una relación indirecta con la variable dependiente, es decir, que si una persona posee determinado tipo de empleo, la probabilidad de ser considerada pobre disminuye.
+
+
+4. ¿Cuánto predice el modelo?
+
+```{r message=FALSE, warning=FALSE}
+PseudoR2(modelo5, which = c("Nagelkerke"))
+```
+
+El modelo predice en un 10.33% si una persona será considerada pobre, es decir, es una predicción baja
+
+5. Exponenciales
+
+**Sobre la variable de tipo de empleo Empleador**
+
+```{r}
+(1-exp(-1.79968))*100
+```
+
+Si una persona es empleador, la probabilidad de que sea considerada pobre disminuye en 83.46482%
+
+**Sobre la variable de tipo de empleo Trabajador Independiente**
+
+```{r}
+(1-exp(-1.01539))*100
+```
+
+Si una persona es trabajador independiente, la probabilidad de que sea considerada pobre disminuye en 63.77389%
+
+**Sobre la variable de tipo de empleo Empleado**
+
+```{r}
+(1-exp(-2.61255))*100
+```
+
+Si una persona es empleado, la probabilidad de que sea considerada pobre disminuye en 92.66527%
+
+**Sobre la variable de tipo de empleo Obrero**
+
+```{r}
+(1-exp(-1.17475))*100
+```
+
+Si una persona es obrero, la probabilidad de que sea considerada pobre disminuye en 69.11038%
+
+**Sobre la variable de tipo de empleo Trabajador familiar no remunerado**
+
+```{r}
+(1-exp(-0.46764))*100
+```
+
+Si una persona es obrero, la probabilidad de que sea considerada pobre disminuye en 37.3521%
+
+**Sobre la variable de tipo de empleo Trabajador del hogar**
+
+```{r}
+(1-exp(-1.63265))*100
+```
+
+Si una persona es obrero, la probabilidad de que sea considerada pobre disminuye en 80.4589%
+
+
+### Breve análisis de los modelos por sector <a name="id12"></a>
+
+<div style="text-align: justify"> Después de haber realizado cinco modelos de regresión logística binaria según sector, se ha podido descubrir que algunas variables que esta investigación consideraba que iban a tener una relación inversa con la variable dependiente Pobreza, no la han tenido; al contrario, su relación era directa. Sin embargo, esto no quiere decir que se deban eliminar tales variables para el análisis, ya que si bien poseen una relación directa con la pobreza, la diferencia en los grados de probabilidad serán claves para poder determinar si una persona será considerada pobre o no. Por ejemplo, todos los tipos de empleo disminuyen la probabilidad de ser considerado pobre, sin embargo, lo hacen en diferente medida, lo que termina influyendo en tal probabilidad. A continuación, se presentará un modelo con variables de sectores varios, seleccionadas según su significancia a los modelos individuales y a criterio de los investigadores, para poder predecir si una persona será considerada pobre o no. </div>
+
+### Modelo de predicción de variables mixtas <a name="id13"></a>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(reshape2)
+enaho$pobrezarecode <- relevel (enaho$pobrezarecode, ref = "No_Pobre")
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+enaho=dummy_cols(enaho, select_columns = c("niveleduc"))
+```
+
+
+```{r message=FALSE, warning=FALSE}
+modelo6 = glm(pobrezarecode ~ telefono + internet + sexo+ niveleduc_Primaria_incompleta + malcro_Si + planfam_Si+ tipoempleo_Empleador + tipoempleo_Trabajador_independiente + tipoempleo_Empleado + tipoempleo_Obrero + tipoempleo_Trabajador_familiar_no_remunerado , family = binomial(link="logit") ,data = enaho)
+summary(modelo6)
+```
+
+**Interpretación de los resultados**
+
+1. ¿El modelo es válido?
+
+- H0: El modelo no es válido 
+
+- H1: El modelo es válido
+
+De acuerdo al p valor del intercepto obtenido (<2e-16), se rechaza la H0, y se concluye que el modelo es válido.
+
+2. ¿Las variables aportan al modelo?
+
+- H0: Las variables no aportan al modelo
+
+- H1: Las variables aportan al modelo
+
+De acuerdo al p valor obtenido en las variables, se rechaza la H0, y se concluye que sí aportan al modelo
+
+3. ¿Cúal es la relación que tienen las variables con la Variable Dependiente?
+
+-  Todos los tipos de empleo poseen una relación indirecta con la variable dependiente, a excepción del tipo de empleo independiente, obrero y familiar no remunerado, pues estos aumentan la probabilidad de ser considerado pobre.
+
+
+4. ¿Cuánto predice el modelo?
+
+```{r message=FALSE, warning=FALSE}
+PseudoR2(modelo6, which = c("Nagelkerke"))
+```
+
+El modelo predice en un 20.84% si una persona será considerada pobre, es decir, es una predicción baja-media
+
+5. Exponenciales
+
+**Sobre la variable de telefono**
+
+```{r}
+(1-exp(-0.893363))*100
+```
+
+Si una persona posee teléfono, la probabilidad de que sea considerada pobre disminuye en 59.0723%
+
+**Sobre la variable de internet**
+
+```{r}
+(1-exp(-1.482508))*100
+```
+
+Si una persona posee internet, la probabilidad de que sea considerada pobre disminuye en 77.29325%
+
+**Sobre la variable de sexo**
+
+```{r}
+(1-exp(-0.043478))*100
+```
+
+Si una persona es mujer, la probabilidad de que sea considerada pobre disminuye en 4.254638%
+
+**Sobre la variable de nivel de educación primaria incompleta**
+
+```{r}
+(1-exp(-0.037758))*100
+```
+
+Si el nivel de educación alcanzado de una persona es primaria incompleta, la probabilidad de que sea considerada pobre disminuye en 3.705405%
+
+**Sobre la variable de males crónicos**
+
+```{r}
+(1-exp(-0.456801))*100
+```
+
+Si una persona padece de alguna enfermedad crónica, la probabilidad de que sea considerada pobre disminuye en 36.66936%
+
+**Sobre la variable de planificación familiar**
+
+```{r}
+(1-exp(-0.065344))*100
+```
+
+Si una persona recibio servicios de planificación familiar, la probabilidad de que sea considerada pobre disminuye en 6.325483%
+
+
+**Sobre la variable de tipo de empleo Empleador **
+
+```{r}
+(1-exp( -0.146773))*100
+```
+
+Si una persona es empleador, la probabilidad de que sea considerada pobre disminuye en 13.651%
+
+**Sobre la variable de tipo de empleo Trabajador independiente **
+
+```{r}
+exp( 0.246093 )
+```
+
+Si una persona es trabajador independiente, la probabilidad de que sea considerada pobre disminuye 1.279019 veces
+
+**Sobre la variable de tipo de empleo Empleado **
+
+```{r}
+(1-exp(-0.828150 ))*100
+```
+
+Si una persona es empleado, la probabilidad de que sea considerada pobre disminuye en 56.31433%
+
+**Sobre la variable de tipo de empleo Obrero **
+
+```{r}
+exp(0.205439)
+```
+
+Si una persona es obrero, la probabilidad de que sea considerada pobre disminuye  1.228064 veces
+
+**Sobre la variable de tipo de empleo: trabajador familiar no reumnerado**
+
+```{r}
+exp(0.630206)
+```
+
+Si una persona es trabajador familiar no remunerado, la probabilidad de que sea considerada pobre disminuye  1.877997 veces
+
+
+### Análisis factorial <a name="id14"></a>
+
+<div style="text-align: justify"> Una de las más grandes consecuencias de un país con altas brechas de calidad de vida es la gran insatisfacción que los ciudadanos tienen con un sistema democrático que perciben inútil a sus intereses y necesidades. En ese sentido, en países como el nuestro, en el cual la democracia es considerablemente precaria, preocupa ver índices tan bajos de satisfacción con la democracia y/o aval del régimen democrático. Como ya se planteó anteriormente, la pobreza debe ser analizada desde una mirada multidimensional, lo que también implica indagar en la correación existente entre las grandes brechas sociales y los bajos niveles de aval al sistema democrático. Por ese motivo, en la presente investigación también se buscó indagar en los factores de acción estatal que influyen en la satisfacción con el sistema democrático que la ciudadanía pueda percibir. Para ello, se hará uso de la base de datos de LAPOP Perú 2019, y se realizará una técnica de reducción de dimensiones (análisis factorial) para poder determinar dos grandes factores que puedan explicar el nivel de satisfacción con la democracia que pueda percibir un ciudadano.  </div> <br>
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+lapop=import("LAPOP_PERU_2019.dta")
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+subset1<-select(lapop, soct2, sgl1,cp13,b4,m1,b10a,b12,b13,b18,b21,b21a,b31,b32,b37,b47a)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+subset1$situacioneco=subset1$soct2
+subset1$servimuni=subset1$sgl1
+subset1$actpolitica=subset1$cp13
+subset1$orgullopolperu=subset1$b4
+subset1$trabajoejecutivo=subset1$m1
+```
+
+```{r Configuración confianza, echo=FALSE, message=FALSE, warning=FALSE}
+subset1$confianza=subset1$b10a+subset1$b12+subset1$b13+subset1$b18+subset1$b21+subset1$b21a+subset1$b31+subset1$b32+subset1$b37+subset1$b47a
+subset1$confianza<-((subset1$confianza-10)/59)*100
+```
+
+
+```{r Configuración situación económica, echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(DescTools)
+subset1$situacioneco = recode(subset1$situacioneco, "3", "2", "1")
+subset1$situacioneco=as.numeric(subset1$situacioneco)
+subset1$situacioneco<-((subset1$situacioneco-1)/2)*100
+```
+
+```{r Configuración Servicios Municipales, message=FALSE, warning=FALSE}
+subset1$servimuni = recode(subset1$servimuni, "5","4","3", "2", "1")
+subset1$servimuni=as.numeric(subset1$servimuni)
+subset1$servimuni<-((subset1$servimuni-1)/4)*100
+```
+
+```{r Configuración trabajo del ejecutivo, echo=FALSE, message=FALSE, warning=FALSE}
+subset1$trabajoejecutivo = recode(subset1$trabajoejecutivo, "5","4","3", "2", "1")
+subset1$trabajoejecutivo=as.numeric(subset1$trabajoejecutivo)
+subset1$trabajoejecutivo<-((subset1$trabajoejecutivo-1)/4)*100
+```
+
+```{r Configuración Orgullo Sistema Político, echo=FALSE, message=FALSE, warning=FALSE}
+subset1$orgullopolperu<-((subset1$orgullopolperu-1)/6)*100
+```
+
+```{r Creación de subset, echo=FALSE, message=FALSE, warning=FALSE}
+lapopsubset<-select(subset1, situacioneco, servimuni,trabajoejecutivo, confianza, orgullopolperu)
+```
+
+
+#### Matriz de correlacion
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(polycor)
+corMatrix=polycor::hetcor(lapopsubset)$correlations
+corMatrix
+```
+
+
+**Gráfico**
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(ggcorrplot)
+ggcorrplot(corMatrix,colors = c("#ff0000", "white", "#0000ff"))
+```
+
+*Interpretación*
+
+Como se puede observar, la mayoría de variables tienen una correlación hacia el mismo sentido (positiva o directa). Esto será útil para la reducción de dimensiones. Las variables que tienen una mayor correlación son el orgullo hacia el sistema político del Perú y la confianza en sus instituciones.
+
+#### Prueba KMO
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(psych)
+KMO(corMatrix) 
+```
+
+
+*Interpretación*
+
+El número del Overall MSA debe ser mayor a 0.5 para poder hacer el análisis factorial, pero mayor a 0.7 es lo ideal. Como se aprecia, sí se cumple el requisito y, en ese sentido, sí se puede hacer el análisis factorial.
+
+#### Forma gráfica: Gráfico de sedimentación
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+fa.parallel(lapopsubset, fm="pa", fa="fa", main = "Gráfico de sedimentación Factor Comun")
+```
+
+*Interpretación*
+
+Según la forma gráfica, solo habría dos factores comunes entre las variables seleccionadas. Esto se comprobará con el test de Eigen Values 
+
+#### Forma numérica: Eigen Values
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+eigen2<-eigen(cor(lapopsubset, use="complete"))
+eigen2$values
+```
+
+*Interpretación*
+
+Según esta forma, existiría solo un factor común a analizar. Sin embargo, al sugerir la consola usar dos factores, queda a criterio del investigador. Se utilizarán los dos para fines del examen.
+
+#### EFA para determinar número de factores
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(GPArotation)
+factorial <- fa(lapopsubset,nfactors = 2,rotate = "varimax",fm="minres")
+factorial
+```
+
+
+#### Carga factorial
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+print(factorial$loadings)
+print(factorial$loadings,cutoff = 0.5)
+```
+
+En las cargas factoriales se puede observar que el factor MR2 está mucho mejor cohesionado y constituido.
+
+#### Gráfico de variables
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+fa.diagram(factorial)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+factorial_casos= as.data.frame(factorial$scores)
+head(factorial_casos)
+summary(factorial_casos)
+
+lapopsubset$factorindirecto<- factorial_casos$MR1
+lapopsubset$factordirecto<- factorial_casos$MR2
+
+names(lapopsubset)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(BBmisc)
+lapopsubset$factorindirecto= normalize(lapopsubset$factorindirecto, 
+                                        method = "range", 
+                                        margin=2, # by column
+                                        range = c(0, 100))
+lapopsubset$factordirecto= normalize(lapopsubset$factordirecto, 
+                                        method = "range", 
+                                        margin=2, # by column
+                                        range = c(0, 100))
+
+```
+
+#### Nombramiento de nuevas variables latentes <a name="id15"></a>
+
+Como se logró ver durante todo el proceso, se ha logrado reducir muchas variables que esta investigación considera correlacionadas a la satisfacción con la democracia. Estos dos factores nuevos son sobre la acción estatal directa y la acción estatal indirecta,
+
+Por un lado, la acción estatal directa refiere a toda actividad del Estado que afecta directamente a la vida de sus ciudadanos, quienes, en base a su experiencia, se sienten o no satisfechos con su democracia. Dentro de este gran factor, se encuentran la percepción sobre la situación económica del país, el manejo del ejecutivo y la calidad de servicios municipales. Todas estas variables significan una acción directa de los políticos en el poder: ya sea el ejecutivo y sus labores cotidiantas y respecto a la economía, como la calidad de la labor municipal.
+
+Por otro lado, encontramos un factor que refiere más a una actividad indirecta del Estado, que sigue afectando a la satisfacción con la democracia de sus ciudadanos, pero de manera más sutil e indirecta. Por ejemplo, la confianza en las instituciones no necesariamente está basada en acciones concretas que afecten a las personas encuestadas; sin embargo, todavía juegan un rol en su percepción sobre la democracia. Así, este factor tambien afecta la satisfacción con la democracia pero en menor medida e impacto que el anterior factor, ya que este se caracteriza por las acciones indirectas. 
+
+
+#### Modelo sobre satisfacción con la democracia <a name="id16"></a>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+lapopsubset$satisdemo=lapop$pn4
+```
+
+
+```{r echo=FALSE, warning=FALSE}
+lapopsubset$satisdemo = recode(lapopsubset$satisdemo, "4","3", "2", "1")
+lapopsubset$satisdemo=as.numeric(lapopsubset$satisdemo)
+lapopsubset$satisdemo<-((lapopsubset$satisdemo-1)/3)*100
+```
+
+
+```{r message=FALSE, warning=FALSE}
+modelo7=lm(lapopsubset$satisdemo~lapopsubset$factorindirecto + lapopsubset$factordirecto)
+summary(modelo7)
+```
+
+**Interpretación de resultados**
+
+1. ¿El modelo es válido?
+
+Si el p valor es menor que 0.05 RECHAZAMOS la H0.
+H0: El modelo no es válido
+H1: El modelo es válido
+
+De acuerdo al p valor obtenido, se rechaza la H0, y se concluye que el modelo es válido.
+
+2. ¿Cúanto explica el modelo?
+
+El modelo explica en un 10.28% la variabilidad de la satisfacción con la democracia, es decir, tiene una predicción baja
+
+3. ¿Las variables aportan al modelo?
+
+Si el p valor es menor que 0.05 RECHAZAMOS la H0.
+- H0: Las variables no aportan al modelo 
+- H1: Las variables aportan al modelo
+
+De acuerdo al p valor obtenido , se rechaza la H0, y se concluye que ambas variables sí aportan al modelo.
+
+4. ¿Cúal es la relación que tienen las variables con la Variable Dependiente?
+
+El signo del coeficiente de ambas variables es negativo, por lo que indica una relación indirecta con la satisfacción con la democracia.
+
+5. Coeficientes
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+modelo7$coefficients
+```
+
+
+6. Ecuación
+
+Matrícula = (85.6937867) - (0.2603381 * Factor de acción estatal indirecta) - (0.2418728 * Factor de acción estatal directa).
+
+7. Ejemplos:
+
+**Para el primer ejemplo, daremos un mayor puntaje a la acción indirecta y un menor puntaje a la acción directa**
+
+```{r}
+(85.6937867) - (0.2603381 * 70) - (0.2418728 * 30)
+```
+
+**Para el segundo ejemplo, daremos un mayor puntaje a la acción directa y un menor puntaje a la acción indirecta**
+
+```{r}
+(85.6937867) - (0.2603381 * 30) - (0.2418728 * 70)
+```
+**Para el tercer ejemplo, daremos un igual puntaje a ambas variables**
+
+```{r}
+(85.6937867) - (0.2603381 * 50) - (0.2418728 * 50)
+```
+
+*Algunas observaciones*
+
+<div style="text-align: justify"> Como se evidencia en las pruebas con la ecuación del modelo realizado, la acción estatal directa es la que tiene más peso para influenciar la satisfacción con la democracia de los ciudadanos. Esto tiene sentido puesto que la acción estatal directa es el primer contacto más exacto con el sistema político y sus instituciones. Las malas experiencias con un servicio brindado directamente por el Estado, y/o las decisiones del ejecutivo que afectan la economía y, por ende, el bolsillo de la ciudadanía, son acciones estatales directas que mellarán en la opinión del ciudadano sobre el sistema político. </div> <br>
+
+
+### Hallazgos y conclusiones<a name="id17"></a>
+
+<div style="text-align: justify"> A lo largo de todo el presente trabajo de investigación, se ha buscado demostrar que la pobreza puede y debe verse como un concepto multidimensional, en el cual no se considere únicamente factores de gasto e ingreso; sino también otros aspectos básicos para una buena calidad de vida. Para ello, se ha hecho un análisis exploratorio de datos, una serie de modelos de regresión logística binaria para probar las hipótesis, y una técnica de reducción de dimensiones para comprender el impacto de la pobreza con las grandes insatisfacciones con el sistema democrático. </div> <br>
+
+<div style="text-align: justify"> En ese sentido, se logró encontrar significancia de todas las variables propuestas en todos los modelos de regresión realizados, lo que prueba que las hipótesis de investigación planteadas al inicio de este informe eran verdaderas. Esto demuestra que la pobreza está bastante relacionada con otros factores además del ingreso, gasto y necesidades básicas insatisfechas. Sin embargo, es importante reconocer que algunas variables no tuvieron la relación directa o indirecta que se esperaba, en especial las variables relacionadas a salud y educación. Esto se debe a la complejidad de la base de datos utilizada, lo que en definitiva fue una limitante de la presente investigación. Para propuestas futuras, se sugiere una recolección de datos con variables cualitativas y cuantitativas mejor definidas en el aspecto de salud y educación, que permitan un análisis más preciso en relación a la pobreza. Asimismo, se halló que las variables relacionadas al tipo de empleo eran las que más aportaban a los modelos. Si bien, según los modelos propuestos, todos los tipos de empleo reducían la probabilidad de pobreza, lo hacían en diferentes medidas; lo que demuestra que el tipo de empleo sí es influyente con que una persona esté en condición de pobreza. Sería interesante realizar más propuestas de investigación que relacionen las condiciones de los tipos de empleo y el condicionamiento a la pobreza que podrían generar.</div> <br>
+
+<div style="text-align: justify"> Sobre el análisis factorial, se pudo demostrar que las variables que se utilizan generalmente para medir la satisfacción de la democracia se pueden reducir a dos factores que están intimamente relacionados con la acción estatal y la percepción que las personas tengan de tal acción. En ese sentido, se proponen acciones estatales directas, que afectan de manera cercana a los ciudadanos, y acciones estatales indirectas, que influyen en la percepción de los ciudadanos pero que no necesariamente los afectan personalmente. Esto está bastante relacionado con la pobreza, ya que son las personas más pobres las que tienen una peor percepción de la acción estatal directa (ya sea que la sientan negativa o ausente), y por ende, son más propensas a estar insatisfechas con el sistema democrático. </div> <br>
+
+<div style="text-align: justify">Este trabajo es un aporte más a la literatura que busca darle un giro al enfoque tradicional monetario de la pobreza, para así poder generar políticas públicas más precisas para la erradicación de dicha problemática. Es importante que, desde la literatura y espacios académicos, se deje de considerar que la situación de pobreza mejora con un simple aumento de ingresos o reducción de gastos; ya que la calidad de vida de una persona no se reduce únicamente al aspecto monetario, sino que involucra otros aspectos de la vida relacionados al desarrollo humano y libertades. En ese sentido, alentamos a que cada vez más investigadores apuesten por propuestas de investigación que busquen romper este paradigma, y sitúen en el centro del análisis de la pobreza al ser humano como sujeto de derechos en múltiples aspectos de su vida. </div> <br>
+
+
+### Bibliografía <a name="id18"></a>
+
+
+Merino Núñez, M., Córdova Chirinos, J. W., Aguirre Pintado, J. M., García Yovera, A. J., & López Ñiquen, K. E. (2020). Nivel de percepción sobre la Pobreza en el Perú, causas y efectos sociales. Revista Universidad y Sociedad, 12(6), 46-53
+
+Urzúa, A., & Caqueo-Urízar, A. (2012). Calidad de vida: Una revisión teórica del concepto. Terapia psicológica, 30(1), 61-71.
+
+Banco Interamericano de Desarrollo. (2020). La realidad social. Módulo 1 - pobreza, desigualdad y movilidad social.
+
+Parodi, Carlos,(1 de noviembre de 2021). ¿Cómo se mide la pobreza?. Gestión https://gestion.pe/blog/economiaparatodos/2019/03/como-se-mide-la-pobreza-3.html/
+
+Gutiérrez, Miguel. (2013). La planificación familiar como herramienta básica para el desarrollo. Revista Peruana de Medicina Experimental y Salud Publica, 30(3), 465-470. Recuperado en 01 de noviembre de 2021, de http://www.scielo.org.pe/scielo.php?script=sci_arttext&pid=S1726-46342013000300016&lng=es&tlng=es.
+
+Organización de las Naciones Unidas. (2018). Las mujeres están por debajo de los hombres en todos los indicadores de desarrollo sostenible. Mirada global Historias humanas. https://news.un.org/es/story/2018/02/1427081 
+Wagstaff, A. (2002). Pobreza y desigualdades en el sector de la salud. Revista Panamericana de salud pública, 11, 316-326.
+
+Altimir, O. (1997). Desigualdad, empleo y pobreza en América Latina: efectos del ajuste y del cambio en el estilo de desarrollo. Desarrollo económico, 3-30.
+
+Coria, Sergio R., & Pérez-Meza, Mónica, & Mendoza-Cortés, Elsa, & Martínez-Peláez, Rafael (2011). Brecha Digital y Pobreza Digital en el Estado de Oaxaca. Conciencia Tecnológica,  (42),19-25.[fecha de Consulta 1 de Noviembre de 2021]. ISSN: 1405-5597. Disponible en:   https://www.redalyc.org/articulo.oa?id=94421442004
+
+
+**Link de GitHub*
+
+https://github.com/JeanCarloLinoArtica/Trabajo-Esta2
+
+
+
+
